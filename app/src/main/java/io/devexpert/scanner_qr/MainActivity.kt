@@ -68,11 +68,7 @@ class MainActivity : ComponentActivity() {
                     Toast.makeText(applicationContext,"permisos denegados", Toast.LENGTH_LONG).show()
                 }
             }else->{
-                //esto jjjjjj
-                //esto jjjjjj
-                //esto jjjjjj
-                //esto jjjjjj
-                //esto jjjjjj
+
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             }
         }
