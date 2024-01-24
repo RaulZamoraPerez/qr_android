@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
 
     var MY_PERMISSION_CAMERA = 100
 
-
+//jpaña
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
