@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
                 //esto jjjjjj
                 //esto jjjjjj
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-            }
+            }//api :)
         }
 
     }
