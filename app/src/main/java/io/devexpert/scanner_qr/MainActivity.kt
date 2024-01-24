@@ -70,7 +70,7 @@ class MainActivity : ComponentActivity() {
             }else->{
 
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-            }
+            }//api :)
         }
 
     }
