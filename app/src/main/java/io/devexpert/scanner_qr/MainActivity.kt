@@ -89,4 +89,7 @@ class MainActivity : ComponentActivity() {
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
+    //CREA UN FRAGMENT BLANK Y
+    //UN FRAGMENT ES COMO UNA ACTIVIDAD PERO CON LA CARACTERISTICA QUE SE PUEDE METER
+    //DENTRO DE UNA ACTIVIDAD
 }
