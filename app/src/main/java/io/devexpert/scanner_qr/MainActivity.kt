@@ -1,9 +1,11 @@
 package io.devexpert.scanner_qr
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,16 +18,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.zxing.integration.android.IntentIntegrator
 import io.devexpert.scanner_qr.ui.theme.SCANNER_QRTheme
 
 class MainActivity : ComponentActivity() {
+    val btnScannear = findViewById<Button>(R.id.btnScannear)
 
     var MY_PERMISSION_CAMERA = 100
 
-//jpaña
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
+
+
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.main_activity)
 
 
         if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.M){//validar versION PREGUNTAMOS SI ES MAYOR A LA VERSION 6
@@ -46,6 +52,7 @@ class MainActivity : ComponentActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), MY_PERMISSION_CAMERA)
 
         }else{
+            agregarEventoBoton()
             Toast.makeText(applicationContext, "permisos concedidos anteriormente", Toast.LENGTH_LONG).show()
         }
     }
@@ -62,7 +69,9 @@ class MainActivity : ComponentActivity() {
     ) {
         when(requestCode){//codigo de respuesta
             MY_PERMISSION_CAMERA->{
+
                 if(grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED){//tiene arreglo de respuestas QUE NO ESTE VACIO
+                    agregarEventoBoton()
                     Toast.makeText(applicationContext,"permisos concedidos", Toast.LENGTH_LONG).show()
                 }else{
                     Toast.makeText(applicationContext,"permisos denegados", Toast.LENGTH_LONG).show()
@@ -77,6 +86,27 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+    }
+
+    fun agregarEventoBoton(){//habilitar el boton
+       btnScannear.isEnabled = true
+        btnScannear.setOnClickListener{
+            IntentIntegrator(this)
+                .initiateScan()//este metodo inicia el escaneo
+        }
+    }
+
+    override fun onActivityReenter( requestCode: Int, resultCode: Int, data: Intent?) {
+        val result = IntentIntegrator.parseActivityResult( requestCode,resultCode, data)
+        if(result !=null){//si no escaneas nada, si es nullo
+             if(result.contents == null){//si el contenido viene vacio se cancela
+                 Toast.makeText(applicationContext, "cancelado", Toast.LENGTH_LONG).show()
+             }else{//si viene lleno
+                 var contenido = result.contents
+                 Toast.makeText(applicationContext, "el contendo ${contenido},", Toast.LENGTH_LONG).show()
+             }
+        }
+        super.onActivityReenter(resultCode, data)
     }
 
 }
